@@ -1,0 +1,21 @@
+﻿move,name,type,category,power,accuracy,contact,sound_based,effect,all_foes,ally,crit_level,recoil_damage,bypass_accuracy
+0,Tackle,Normal,Physical,40,100,1,0,0,0,0,0,0,0
+1,Growl,Normal,Status,0,100,0,1,1,1,0,0,0,0
+2,Vine Whip,Grass,Physical,45,100,1,0,0,0,0,0,0,0
+3,Growth,Normal,Status,0,100,0,0,2,0,0,0,0,0
+4,Leech Seed,Grass,Status,0,90,0,0,3,0,0,0,0,0
+5,Razor Leaf,Grass,Physical,55,95,0,0,0,1,0,1,0,0
+6,Poison Powder,Poison,Status,0,75,0,0,4,0,0,0,0,0
+7,Sleep Powder,Grass,Status,0,75,0,0,5,0,0,0,0,0
+8,Seed Bomb,Grass,Physical,80,100,0,0,0,0,0,0,0,0
+9,Take Down,Normal,Physical,90,85,1,0,0,0,0,0,0.25,0
+10,Sweet Scent,Normal,Status,0,100,0,0,6,1,0,0,0,0
+11,Synthesis,Grass,Status,0,100,0,0,7,0,0,0,0,0
+12,Worry Seed,Grass,Status,0,100,0,0,8,0,0,0,0,0
+13,Double-Edge,Normal,Physical,120,100,1,0,0,0,0,0,0.333333,0
+14,Solar Beam,Grass,Special,120,100,0,0,9,0,0,0,0,0
+15,Magical Leaf,Grass,Special,60,100,0,0,0,0,0,0,0,1
+16,Light Screen,Psychic,Status,0,100,0,0,10,0,1,0,0,0
+17,Safeguard,Normal,Status,0,100,0,0,11,0,1,0,0,0
+18,Rest,Psychic,Status,0,100,0,0,12,0,0,0,0,0
+19,Snore,Normal,Special,50,100,0,1,13,0,0,0,0,0
