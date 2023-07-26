@@ -24,7 +24,8 @@ expected_damage_bulbasaur = {
     16: [0],
     17: [0],
     18: [0],
-    19: [0]
+    19: [0],
+    20: [0]
 }
 
 class PokemonTest(unittest.TestCase):
@@ -41,6 +42,8 @@ class PokemonTest(unittest.TestCase):
         self.pokemon1 = helper.create_pokemon(pokedex.iloc[0], moves)
 
         self.pokemon2 = helper.create_pokemon(pokedex.iloc[0], moves)
+
+    # def test_priotiry(self):
 
     def test_stat_stages(self):
         helper.reset_pokemon(self.pokemon1)
@@ -64,6 +67,25 @@ class PokemonTest(unittest.TestCase):
         helper.calculate_damage(self.pokemon1, self.pokemon2, self.pokemon1.moves.iloc[19], False)
         damage_done = self.pokemon2.max_hp - self.pokemon2.current_hp
         self.assertTrue(damage_done != 0)
+    
+    def test_protect(self):
+        helper.reset_pokemon(self.pokemon1)
+        helper.reset_pokemon(self.pokemon2)
+
+        self.assertTrue(self.pokemon1.protect_turns == 0)
+
+        helper.calculate_damage(self.pokemon1, self.pokemon2, self.pokemon1.moves.iloc[20], False)
+        helper.calculate_damage(self.pokemon2, self.pokemon1, self.pokemon1.moves.iloc[0], False)
+        damage_done = self.pokemon1.max_hp - self.pokemon1.current_hp
+        self.assertTrue(damage_done == 0)
+        self.assertTrue(self.pokemon1.effects & PokemonEffects.PROTECT)
+        self.assertTrue(self.pokemon1.protect_turns == 1)
+
+        helper.apply_post_move_effects(self.pokemon1, self.pokemon2, False)
+        helper.calculate_damage(self.pokemon2, self.pokemon1, self.pokemon1.moves.iloc[0], False)
+        damage_done = self.pokemon1.max_hp - self.pokemon1.current_hp
+        self.assertTrue(damage_done != 0)
+        self.assertFalse(self.pokemon1.effects & PokemonEffects.PROTECT)
 
     def test_move_damage(self):
         for idx, move in self.pokemon1.moves.iterrows():

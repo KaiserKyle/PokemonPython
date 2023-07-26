@@ -122,6 +122,7 @@ def reset_pokemon(poke):
     poke.sleep_counter = 0
     poke.light_screen_turns = 0
     poke.safeguard_turns = 0
+    poke.protect_turns = 0
 
     return poke
 
@@ -134,6 +135,13 @@ def battle(poke1, poke1_script, poke2, poke2_script, verbose):
     while poke1.current_hp > 0 and poke2.current_hp > 0 and moves_1 < len(poke1_script) and moves_2 < len(poke2_script):
         current_speed_1 = calcStat(poke1.speed, 31, 0, poke1.speed_stage)
         current_speed_2 = calcStat(poke2.speed, 31, 0, poke2.speed_stage)
+
+        # Apply priority
+        pri1 = poke1.moves.iloc[poke1_script[moves_1]].priority
+        pri2 = poke2.moves.iloc[poke2_script[moves_2]].priority
+
+        current_speed_1 = current_speed_1 + 1000 * pri1
+        current_speed_2 = current_speed_2 + 1000 * pri2
 
         # Break Speed Tie
         if current_speed_1 == current_speed_2:
@@ -203,7 +211,11 @@ def apply_post_move_effects(poke1, poke2, verbose):
     if poke1.safeguard_turns == 0:
         poke1.effects &= ~PokemonEffects.SAFEGUARD
 
+    if not poke1.effects & PokemonEffects.PROTECT:
+        poke1.protect_turns = 0
+
     poke1.effects &= ~PokemonEffects.FLINCHED
+    poke1.effects &= ~PokemonEffects.PROTECT
 
     return poke1, poke2
 
@@ -217,6 +229,12 @@ def calculate_damage(poke1, poke2, move, verbose):
     if poke1.effects & PokemonEffects.FLINCHED:
         if verbose:
             print(poke1.name + " flinched!")
+        return
+
+    # Protect check
+    if poke2.effects & PokemonEffects.PROTECT:
+        if verbose:
+            print(poke2.name + " proected themselves!")
         return
 
     # Sleep check

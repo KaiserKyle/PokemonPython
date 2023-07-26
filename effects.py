@@ -22,6 +22,7 @@ class PokemonEffects(Flag):
     LIGHT_SCREEN = auto()
     SAFEGUARD = auto()
     FLINCHED = auto()
+    PROTECT = auto()
 
 class EffectIndex(IntEnum):
     NONE = 0
@@ -38,6 +39,7 @@ class EffectIndex(IntEnum):
     SAFEGUARD = 11
     REST = 12
     SNORE = 13
+    PROTECT = 14
 
 def apply_stat_stage(pokemon, stats, change):
     if stats & Stat.ATK:
@@ -117,6 +119,11 @@ def apply_effect(effect_index, acting_pokemon, opp_pokemon):
         acc_roll = randint(0, 99)
         if acc_roll < 30:
             opp_pokemon.effects |= PokemonEffects.FLINCHED
+    elif effect_index == EffectIndex.PROTECT:
+        acting_pokemon.protect_turns += 1
+        acc_roll = randint(0, 99)
+        if acc_roll < (100 / acting_pokemon.protect_turns):
+            acting_pokemon.effects |= PokemonEffects.PROTECT
 
 
     return acting_pokemon, opp_pokemon
